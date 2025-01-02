@@ -1,0 +1,42 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.layout-main {
+  display: flex;
+  flex: 1; /* Take up remaining space below header */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.layout-content {
+  flex: 1; /* Take up remaining space next to sidebar */
+  padding: 20px;
+  overflow-y: auto; /* Scroll if content overflows vertically */
+}
+
+header {
+  background-color: #f8f9fa;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+footer {
+  background-color: #f8f9fa;
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+.sidebar {
+  width: 250px; /* Fixed width for sidebar */
+  background-color: #e9ecef;
+  height: 100%; /* Full height of the layout-main container */
+  overflow-y: auto; /* Scroll if content overflows */
+}
+
+.layout-content {
+  background-color: #fff;
+}
