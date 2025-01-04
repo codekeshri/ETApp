@@ -15,7 +15,7 @@ function AppRouter() {
           element={
             <Layout>
               <Routes>
-                <Route path="/Home" element={<Home />} />
+                <Route path="/home" element={<Home />} />
               </Routes>
             </Layout>
           }
