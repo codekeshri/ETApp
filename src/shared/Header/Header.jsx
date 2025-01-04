@@ -24,9 +24,15 @@ function Header() {
         { headers: { 'Content-Type': 'application/json' } }
       );
       toast.success('Verification link has been sent to your email successfully');
+      alert('Verification link has been sent to your email successfully');
     } catch (error) {
-      toast.error(error.message);
+      toast.error('Unable to send mail', error);
     }
+  };
+
+  const editDetails = e => {
+    e.preventDefault();
+    navigate('/profile');
   };
   return (
     <div>
@@ -40,19 +46,14 @@ function Header() {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="#">
-                complete profile
-              </a>
-            </li>
             <li className="nav-item">
               <a className="nav-link" href="#" onClick={verifyHandler}>
                 verify email
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                edit details
+              <a className="nav-link" href="#" onClick={editDetails}>
+                edit profile
               </a>
             </li>
             <div style={{ marginLeft: '600px', display: 'flex' }}>

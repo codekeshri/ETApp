@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home.jsx";
-import Auth from "../pages/Auth.jsx";
-import NotFound from "../pages/NotFound";
-import Layout from "../shared/Layout/Layout";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from '../pages/Home.jsx';
+import Auth from '../pages/Auth.jsx';
+import NotFound from '../pages/NotFound';
+import Layout from '../shared/Layout/Layout';
+import { Profile } from '../pages/Profile.jsx';
 
 function AppRouter() {
   return (
@@ -15,6 +16,7 @@ function AppRouter() {
             <Layout>
               <Routes>
                 <Route path="/home" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </Layout>
           }

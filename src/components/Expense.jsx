@@ -97,7 +97,7 @@ function Expense() {
                   <label className="form-label">Amount</label>
                   <input type="number" className="form-control mb-3" placeholder="Amount" onChange={e => setAmount(e.target.value)} value={amount} />
                 </div>
-                <div className="form-group row">
+                <div className="form-group">
                   <label className="form-label">Item</label>
                   <input type="text" className="form-control mb-3" placeholder="Item" onChange={e => setItem(e.target.value)} value={item} />
                 </div>
