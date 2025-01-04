@@ -61,6 +61,7 @@ export const Signup = () => {
       localStorage.setItem('idToken', res.data.idToken);
       localStorage.setItem('refreshToken', res.data.refreshToken);
       localStorage.setItem('localId', res.data.localId);
+      localStorage.setItem('email', email);
       navigate('/home');
       setEmail('');
       setUsername('');

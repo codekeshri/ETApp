@@ -12,7 +12,6 @@ function Expense() {
   const [category, setCategory] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(null);
-  // const [email, setEmail] = useState('arvidce10@gmail.com');
 
   const fetchExpenses = useCallback(async () => {
     try {

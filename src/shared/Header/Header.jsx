@@ -1,3 +1,5 @@
+import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
@@ -8,6 +10,23 @@ function Header() {
     localStorage.removeItem('idToken');
     localStorage.removeItem('localId');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('email');
+  };
+
+  const verifyHandler = async () => {
+    try {
+      await axios.post(
+        import.meta.env.VITE_VERIFY_EMAIL,
+        {
+          requestType: 'VERIFY_EMAIL',
+          idToken: localStorage.idToken,
+        },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      toast.success('Verification link has been sent to your email successfully');
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   return (
     <div>
@@ -27,7 +46,7 @@ function Header() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="#" onClick={verifyHandler}>
                 verify email
               </a>
             </li>
