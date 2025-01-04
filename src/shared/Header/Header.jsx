@@ -1,25 +1,21 @@
-import React from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
+  const logout = e => {
+    e.preventDefault();
+    navigate('/');
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('localId');
+    localStorage.removeItem('refreshToken');
+  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a
-          className="navbar-brand"
-          href="#"
-          style={{ marginLeft: "20px", fontWeight: "bold" }}
-        >
+        <a className="navbar-brand" href="#" style={{ marginLeft: '20px', fontWeight: 'bold' }}>
           Expense Tracker
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
 
@@ -40,30 +36,25 @@ function Header() {
                 edit details
               </a>
             </li>
-            <div style={{ marginLeft: "600px", display: "flex" }}>
+            <div style={{ marginLeft: '600px', display: 'flex' }}>
               <form className="form-inline my-2 my-lg-0">
-                <input
-                  className="form-control mr-sm-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
+                <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
               </form>
               <button
                 className="btn btn-outline-success my-2 my-sm-0"
                 type="submit"
                 style={{
-                  marginLeft: "5px",
-                  float: "right",
-                  height: "34px",
-                  textAlign: "center",
+                  marginLeft: '5px',
+                  float: 'right',
+                  height: '34px',
+                  textAlign: 'center',
                 }}
               >
                 Search
               </button>
 
               <li className="nav-item active">
-                <a className="nav-link" href="#" style={{ marginLeft: "50px" }}>
+                <a className="nav-link" href="#" style={{ marginLeft: '50px' }} onClick={logout}>
                   Logout
                 </a>
               </li>

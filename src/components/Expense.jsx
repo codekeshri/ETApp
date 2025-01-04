@@ -1,49 +1,92 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getExpense, postExpense, putExpense, deleteExpense } from '../store/slices/expense';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function Expense() {
+  const dispatch = useDispatch();
   const expenses = useSelector(state => state.expenses);
-
   const [amount, setAmount] = useState('');
   const [item, setItem] = useState('');
   const [category, setCategory] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [id, setId] = useState(null);
+  const [email, setEmail] = useState('arvidce10@gmail.com');
 
-  const dispatch = useDispatch();
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_GET_EXPENSE);
 
-  const addExpenseHandler = e => {
+      const fetchedExpenses = [];
+      for (const key in response.data) {
+        fetchedExpenses.push({
+          id: key,
+          ...response.data[key],
+        });
+      }
+      dispatch(getExpense(fetchedExpenses));
+    } catch (error) {
+      toast.error('Error fetching expenses from Firebase');
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, [dispatch, email]);
+
+  const addExpenseHandler = async e => {
     e.preventDefault();
-    if (id) {
-      dispatch(putExpense({ amount, item, category }));
-    } else {
-      dispatch(
-        postExpense({
-          id: expenses[expenses.length - 1].id + 1,
-          amount,
-          item,
-          category,
-        })
-      );
+    try {
+      await axios.post(import.meta.env.VITE_POST_EXPENSE, { amount, item, category }, { headers: { 'Content-Type': 'application/json' } });
+      toast.success('Expense added successfully');
+      clearForm();
+      dispatch(postExpense({ amount, item, category }));
+    } catch {
+      toast.error('error posting expense in firebase');
     }
   };
 
   const editHandler = (expense, event) => {
     event.preventDefault();
-    const matchedExpense = expenses.filter(item => expense.id === item.id);
-    console.log(matchedExpense);
-    // dispatch(putExpense(matchedExpense));
+    setIsEditing(true);
+    setId(expense.id);
     setAmount(expense.amount);
     setItem(expense.item);
     setCategory(expense.category);
-
-    //make a post request and update data in expenses
   };
 
-  const deleteHandler = (expense, event) => {
+  const updateExpenseHandler = async e => {
+    e.preventDefault();
+    try {
+      await axios.put(`${import.meta.env.VITE_DELETE_EXPENSE}/${id}.json`, { amount, item, category }, { headers: { 'Content-Type': 'application/json' } });
+      dispatch(putExpense({ id, amount, item, category }));
+      clearForm();
+    } catch {
+      toast.error('error updating expense in firebase');
+    }
+  };
+
+  const deleteHandler = async (expense, event) => {
     event.preventDefault();
-    const { id } = expense;
-    dispatch(deleteExpense(expense));
+    setId(expense.id);
+    console.log(id);
+    try {
+      await axios.delete(`${import.meta.env.VITE_DELETE_EXPENSE}/${id}.json`, { headers: { 'Content-Type': 'application/json' } });
+      dispatch(deleteExpense({ id }));
+    } catch {
+      toast.error('error deleting expense in firebase');
+    }
+  };
+
+  const clearForm = () => {
+    setAmount('');
+    setItem('');
+    setCategory('');
+    setIsEditing(false);
+    setId(null);
   };
 
   return (
@@ -66,8 +109,8 @@ function Expense() {
                   <label>Category</label>
                   <input type="text" className="form-control" placeholder="Category" onChange={e => setCategory(e.target.value)} value={category} />
                 </div>
-                <button type="submit" className="btn btn-primary mt-2" onClick={addExpenseHandler}>
-                  Add
+                <button type="submit" className="btn btn-primary mt-2" onClick={isEditing ? updateExpenseHandler : addExpenseHandler}>
+                  {isEditing ? 'Update' : 'Add'}
                 </button>
               </form>
             </div>
